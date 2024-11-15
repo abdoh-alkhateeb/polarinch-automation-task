@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import UploadForm from '@/components/UploadForm';
+import { useState } from 'react';
 
 export default function Home() {
-  const [response, setResponse] = useState(null);
+  const [response, setResponse] = useState('');
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">

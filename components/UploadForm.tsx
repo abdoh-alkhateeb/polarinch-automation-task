@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
 
 interface UploadFormProps {
-  setResponse: (response: any) => void;
+  setResponse: (response: string) => void;
 }
 
 const UploadForm: React.FC<UploadFormProps> = ({ setResponse }) => {
@@ -17,21 +17,22 @@ const UploadForm: React.FC<UploadFormProps> = ({ setResponse }) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!selectedFiles) return;
 
+    if (!selectedFiles) return;
     setLoading(true);
-    const formData = new FormData();
 
     try {
-      Array.from(selectedFiles).forEach((file) => {
-        formData.append('files', file);
-      });
-
-      const res = await axios.post('/api/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      const res = await axios.post(
+        '/api/upload',
+        {
+          files: selectedFiles,
         },
-      });
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
 
       setResponse(res.data);
     } catch (error) {
@@ -47,6 +48,7 @@ const UploadForm: React.FC<UploadFormProps> = ({ setResponse }) => {
         type="file"
         onChange={handleFileChange}
         multiple
+        accept=".heic,.jpg,.jpeg,.png"
         className="block w-full mb-4 text-sm text-gray-300
           file:mr-4 file:py-2 file:px-4
           file:rounded-lg file:border-0
